@@ -68,14 +68,28 @@ PostgreSQL conserva la partición y el offset de Kafka junto con cada lectura, l
 
 ## Ejecución
 
-Ejecutar desde la raíz del repositorio, con Docker Desktop iniciado:
+Ejecutar desde la raíz del repositorio, con Docker Desktop iniciado.
+
+Primero, crear la configuración local:
+
+```bat
+copy .env.example .env
+notepad .env
+```
+
+En `.env`, completar `AIREIQ_DB_PASSWORD` y `AIREIQ_GRAFANA_ADMIN_PASSWORD`. Si el broker MQTT requiere autenticación, completar también `MQTT_USERNAME` y `MQTT_PASSWORD`. Este archivo contiene credenciales locales y no se publica.
+
+Después, iniciar los servicios:
 
 ```bat
 docker compose -f kafka\compose.yml up -d
 docker compose -f s06-pruebas\compose.yml up -d --build
+docker compose -f s07-iot\compose.yml up -d --build
 docker compose -f spark-streaming\compose.yml up -d --build
 docker compose --env-file .env -f observability\compose.example.yml up -d --build
 ```
+
+El contenedor de Spark queda disponible para ejecutar los procesos de streaming. Los comandos y la verificación de las ventanas Gold se describen en `docs/s10-spark-streaming.md`.
 
 Para probar una nueva orden de inspección, iniciar el consumidor en una terminal:
 
@@ -100,4 +114,4 @@ El identificador de la orden y el offset deben coincidir en el productor y el co
 
 ## Estado
 
-El flujo IoT → MQTT → Kafka, la persistencia Raw/Gold con Spark, el evento de negocio, el dashboard y la evaluación de inferencia se han probado localmente. Para la entrega aún corresponde reunir las evidencias finales, guardar una copia exportable del dashboard y preparar la demostración.
+El flujo IoT → MQTT → Kafka, la persistencia Raw/Gold con Spark, el evento de negocio, el dashboard y la evaluación de inferencia se han probado localmente. Las evidencias finales están en `evidence/` y la copia exportable del dashboard se encuentra en `observability/grafana/dashboards/aireiq-dashboard.json`. Queda preparar la demostración en vivo.
