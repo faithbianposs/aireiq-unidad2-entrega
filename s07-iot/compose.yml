@@ -1,0 +1,22 @@
+name: aireiq-s07-iot
+
+services:
+  mqtt-kafka-bridge:
+    build: ./bridge
+    container_name: aireiq-mqtt-kafka-bridge
+    restart: unless-stopped
+    environment:
+      MQTT_BROKER: broker.emqx.io
+      MQTT_PORT: "1883"
+      MQTT_USERNAME: ${MQTT_USERNAME}
+      MQTT_PASSWORD: ${MQTT_PASSWORD}
+      MQTT_TOPIC: aireiq/frank-ramos/lecturas/v1
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_TOPIC: aireiq-lecturas
+    networks:
+      - aireiq-kafka-net
+
+networks:
+  aireiq-kafka-net:
+    external: true
+    name: aireiq-kafka-net

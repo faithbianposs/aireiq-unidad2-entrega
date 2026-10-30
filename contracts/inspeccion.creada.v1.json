@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AireIQ - Orden de inspeccion creada",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tipo_evento",
+    "orden_id",
+    "dispositivo",
+    "motivo",
+    "solicitante",
+    "estado",
+    "fecha_evento_utc"
+  ],
+  "properties": {
+    "tipo_evento": {
+      "type": "string",
+      "const": "inspeccion.creada"
+    },
+    "orden_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "dispositivo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "motivo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "solicitante": {
+      "type": "string",
+      "minLength": 1
+    },
+    "estado": {
+      "type": "string",
+      "const": "PENDIENTE"
+    },
+    "fecha_evento_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AireIQ - Lectura ambiental BME680",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dispositivo",
+    "temperatura_c",
+    "humedad_pct",
+    "presion_hpa",
+    "gas_ohms",
+    "altura_m",
+    "iaq_estimado",
+    "eco2_estimado_ppm",
+    "voc_indice_estimado",
+    "calidad_aire",
+    "created_at"
+  ],
+  "properties": {
+    "dispositivo": {
+      "type": "string",
+      "const": "ESP32_AireIQ"
+    },
+    "temperatura_c": {
+      "type": "number"
+    },
+    "humedad_pct": {
+      "type": "number"
+    },
+    "presion_hpa": {
+      "type": "number"
+    },
+    "gas_ohms": {
+      "type": "number"
+    },
+    "altura_m": {
+      "type": "number"
+    },
+    "iaq_estimado": {
+      "type": "number",
+      "description": "Índice estimado a partir del BME680"
+    },
+    "eco2_estimado_ppm": {
+      "type": "number",
+      "description": "eCO2 estimado; no corresponde a un sensor de CO2 directo"
+    },
+    "voc_indice_estimado": {
+      "type": "number",
+      "description": "Índice VOC estimado"
+    },
+    "calidad_aire": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

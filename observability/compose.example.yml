@@ -1,0 +1,72 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: aireiq-postgres
+    environment:
+      POSTGRES_DB: aireiq_operativo
+      POSTGRES_USER: aireiq
+      POSTGRES_PASSWORD: "${AIREIQ_DB_PASSWORD:?Define AIREIQ_DB_PASSWORD en .env}"
+    volumes:
+      - aireiq-postgres-data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aireiq -d aireiq_operativo"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - aireiq-kafka-net
+    mem_limit: 400m
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:13.2.5-distroless-slim
+    container_name: aireiq-grafana
+    ports:
+      - "43000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: aireiq_admin
+      GF_SECURITY_ADMIN_PASSWORD: "${AIREIQ_GRAFANA_ADMIN_PASSWORD:?Define AIREIQ_GRAFANA_ADMIN_PASSWORD en .env}"
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: aireiq_operativo
+      POSTGRES_USER: aireiq
+      POSTGRES_PASSWORD: "${AIREIQ_DB_PASSWORD:?Define AIREIQ_DB_PASSWORD en .env}"
+    volumes:
+      - aireiq-grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - aireiq-kafka-net
+    mem_limit: 600m
+    restart: unless-stopped
+
+  kafka-postgres-sink:
+    build: ./consumer
+    container_name: aireiq-kafka-postgres-sink
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_TOPIC: aireiq-lecturas
+      KAFKA_GROUP_ID: aireiq-grafana-sink-v1
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: aireiq_operativo
+      POSTGRES_USER: aireiq
+      POSTGRES_PASSWORD: "${AIREIQ_DB_PASSWORD:?Define AIREIQ_DB_PASSWORD en .env}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - aireiq-kafka-net
+    mem_limit: 256m
+    restart: unless-stopped
+
+volumes:
+  aireiq-postgres-data:
+  aireiq-grafana-data:
+
+networks:
+  aireiq-kafka-net:
+    external: true
+    name: aireiq-kafka-net

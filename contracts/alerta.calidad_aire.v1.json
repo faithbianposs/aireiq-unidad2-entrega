@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AireIQ - Alerta de calidad de aire",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tipo_evento",
+    "dispositivo",
+    "nivel",
+    "origen",
+    "mensaje",
+    "fecha_evento_utc"
+  ],
+  "properties": {
+    "tipo_evento": {
+      "type": "string",
+      "const": "alerta.calidad_aire"
+    },
+    "dispositivo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nivel": {
+      "type": "string",
+      "enum": ["PRUEBA", "INFO", "ADVERTENCIA", "CRITICA"]
+    },
+    "origen": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mensaje": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fecha_evento_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

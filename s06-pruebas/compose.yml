@@ -1,0 +1,17 @@
+name: aireiq-s06-pruebas
+
+services:
+  python-kafka:
+    build: .
+    container_name: aireiq-s06-python
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    command: ["sleep", "infinity"]
+    networks:
+      - aireiq-kafka-net
+
+networks:
+  aireiq-kafka-net:
+    external: true
+    name: aireiq-kafka-net

@@ -1,0 +1,19 @@
+services:
+  spark-streaming:
+    build: .
+    image: aireiq-spark:4.2.0-ml
+    container_name: aireiq-spark-streaming
+    command: ["sleep", "infinity"]
+    working_dir: /opt/aireiq/app
+    volumes:
+      - ./app:/opt/aireiq/app
+      - ./data:/opt/aireiq/data
+    networks:
+      - aireiq-kafka-net
+    mem_limit: 1500m
+    restart: unless-stopped
+
+networks:
+  aireiq-kafka-net:
+    external: true
+    name: aireiq-kafka-net
