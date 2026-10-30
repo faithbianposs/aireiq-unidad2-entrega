@@ -30,7 +30,7 @@ En la Unidad I se analizaron lecturas históricas. En la Unidad II se añadió i
 
 - **Consulta operativa:** Kafka → consumidor PostgreSQL → Grafana.
 
-- **Analítica:** modelo de regresión y baseline de persistencia evaluados con datos de AireIQ; predicción por persistencia mostrada junto a los KPIs en Grafana.
+- **Analítica:** modelo de regresión y línea base de persistencia evaluados con datos de AireIQ; línea base de persistencia mostrada junto a los KPIs en Grafana.
 
 
 
@@ -54,9 +54,9 @@ PostgreSQL alimenta los paneles de Grafana. Los archivos Gold de Spark se compro
 
 | S9 — Observabilidad y costos | Dashboard de Grafana con volumen, frescura, latencia y variables ambientales; estimación basada en medidas del sistema. | Panel operativo y `costs/estimacion_costos.md`. |
 
-| S10 — Series de tiempo | Regresión de temperatura comparada con persistencia mediante una separación cronológica de entrenamiento y prueba. | MAE y RMSE de ambos métodos; predicción a una lectura en Grafana. |
+| S10 — Series de tiempo | Regresión de temperatura comparada con persistencia mediante una separación cronológica de entrenamiento y prueba. | MAE y RMSE de ambos métodos; línea base de persistencia en Grafana. |
 
-| S11 — BI/ML | Temperatura, humedad, IAQ, eCO₂, KPI por cinco minutos y predicción en el mismo dashboard. | Captura y exportación JSON del tablero. |
+| S11 — BI/ML | Temperatura, humedad, IAQ, eCO₂, KPI por cinco minutos y línea base de persistencia en el mismo dashboard. | Captura y exportación JSON del tablero. |
 
 
 
@@ -66,9 +66,9 @@ PostgreSQL alimenta los paneles de Grafana. Los archivos Gold de Spark se compro
 
 - En una comprobación, Raw contenía 864 lecturas con 864 tiempos de evento distintos.
 
-- Spark mostró una ventana de cinco minutos con 7 lecturas del dispositivo. Después se verificaron archivos Parquet recientes en `fecha_ventana=2026-10-30`.
+- Spark mostró ventanas de cinco minutos con 18 o 19 lecturas y una con 7, por debajo del umbral de 15; la causa no se ha determinado. También se verificaron archivos Parquet recientes en `fecha_ventana=2026-10-30`.
 
-- PostgreSQL almacenaba 1176 lecturas; la tabla y sus índices ocupaban 472 kB, aproximadamente 411 bytes por lectura.
+- PostgreSQL almacenaba 2879 lecturas; la tabla y sus índices ocupaban 1 032 192 bytes, aproximadamente 358,52 bytes por lectura.
 
 - En 112 lecturas recientes, la latencia Kafka → PostgreSQL tuvo una media de 8,1 ms, un mínimo de 3,7 ms y un máximo de 59,9 ms.
 
@@ -86,7 +86,7 @@ PostgreSQL alimenta los paneles de Grafana. Los archivos Gold de Spark se compro
 
 
 
-La persistencia obtuvo menor error en esta prueba. Por ello, el panel «Temperatura real vs. predicción a una lectura» muestra esa predicción. No se presenta la curva del panel como si fuera la salida del modelo de regresión.
+La persistencia obtuvo menor error en esta prueba. Por ello, el panel «Temperatura real vs. línea base de persistencia» muestra la lectura anterior (LAG); su curva no procede del modelo Spark ML.
 
 
 
@@ -94,7 +94,7 @@ La persistencia obtuvo menor error en esta prueba. Por ello, el panel «Temperat
 
 
 
-La estimación de escalado usa 19 lecturas cada cinco minutos y 411 bytes por lectura en PostgreSQL. Proyecta aproximadamente 67,5 MB mensuales para un sensor, 674,7 MB para diez y 6,75 GB para cien, sin incluir Kafka, Parquet, WAL ni copias de seguridad. El documento de costos separa los valores medidos de los supuestos de consumo eléctrico.
+La estimación de escalado usa 19 lecturas cada cinco minutos y 358,52 bytes por lectura en PostgreSQL. Proyecta aproximadamente 58,85 MB mensuales para un sensor, 588,55 MB para diez y 5,89 GB para cien, sin incluir Kafka, Parquet, WAL ni copias de seguridad. El documento de costos separa los valores medidos de los supuestos de consumo eléctrico.
 
 
 
@@ -102,7 +102,7 @@ El watermark de un minuto limita cuánto tiempo espera Spark por eventos tardío
 
 
 
-El dashboard muestra frescura, volumen y latencia del flujo operativo. Todavía no incluye un panel específico de lag de consumidores ni métricas internas de Spark. La predicción por persistencia usa la lectura previa; no se debe describir como inferencia del modelo de regresión ni como una predicción sin historial.
+El dashboard muestra frescura, volumen y latencia del flujo operativo. El lag del consumidor se comprobó en Kafka (0 mensajes pendientes en una captura con ingesta activa); el dashboard aún no incluye un panel de lag ni métricas internas de Spark. La línea base usa la lectura previa; no es la salida del modelo Spark ML.
 
 
 
@@ -138,4 +138,4 @@ El dashboard muestra frescura, volumen y latencia del flujo operativo. Todavía 
 
 4\. Mostrar volumen, frescura y latencia en Grafana; explicar la proyección de costos.
 
-5\. Comparar las métricas de regresión y persistencia, y señalar la predicción junto al KPI de temperatura.
+5\. Comparar las métricas de regresión y persistencia, y explicar la línea base junto al KPI de temperatura.

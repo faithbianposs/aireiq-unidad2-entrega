@@ -6,7 +6,7 @@
 
 
 
-\- PostgreSQL: 1176 lecturas; tabla e índices: 472 kB; aproximadamente 411 bytes por lectura.
+\- PostgreSQL: 2879 lecturas; tabla e índices: 1 032 192 bytes; aproximadamente 358,52 bytes por lectura.
 
 \- Ingesta observada: 18–19 lecturas por ventana de 5 minutos con un sensor.
 
@@ -20,7 +20,7 @@
 
 
 
-Supuestos: 19 lecturas cada 5 minutos de forma continua, meses de 30 días y 411 bytes por lectura. Es una aproximación del tamaño de la tabla y sus índices; no incluye Kafka, Parquet, WAL ni copias de seguridad.
+Supuestos: 19 lecturas cada 5 minutos de forma continua, meses de 30 días y 358,52 bytes por lectura. Es una aproximación del tamaño de la tabla y sus índices; no incluye Kafka, Parquet, WAL ni copias de seguridad.
 
 
 
@@ -28,11 +28,11 @@ Supuestos: 19 lecturas cada 5 minutos de forma continua, meses de 30 días y 411
 
 | --- | ---: | ---: |
 
-| 1 | 164 160 | 67,5 MB |
+| 1 | 164 160 | 58,85 MB |
 
-| 10 | 1 641 600 | 674,7 MB |
+| 10 | 1 641 600 | 588,55 MB |
 
-| 100 | 16 416 000 | 6,75 GB |
+| 100 | 16 416 000 | 5,89 GB |
 
 
 

@@ -723,8 +723,8 @@
         "kind": "Panel",
         "spec": {
           "id": 6,
-          "title": "Temperatura real vs. predicción a una lectura",
-          "description": "",
+          "title": "Temperatura real vs. línea base de persistencia",
+          "description": "La línea amarilla usa la lectura anterior (LAG); no es la salida del modelo Spark ML.",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -745,7 +745,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "WITH serie AS (\r\n  SELECT\r\n    event_time,\r\n    temperatura_c,\r\n    LAG(temperatura_c) OVER (ORDER BY event_time) AS prediccion_c,\r\n    LAG(event_time) OVER (ORDER BY event_time) AS tiempo_anterior\r\n  FROM lecturas_aire\r\n)\r\nSELECT\r\n  event_time AS \"time\",\r\n  temperatura_c AS \"Temperatura real °C\",\r\n  CASE\r\n    WHEN event_time - tiempo_anterior\r\n         BETWEEN INTERVAL '1 second' AND INTERVAL '90 seconds'\r\n    THEN prediccion_c\r\n  END AS \"Predicción a una lectura °C\"\r\nFROM serie\r\nWHERE $__timeFilter(event_time)\r\nORDER BY event_time;",
+                        "rawSql": "WITH serie AS (\r\n  SELECT\r\n    event_time,\r\n    temperatura_c,\r\n    LAG(temperatura_c) OVER (ORDER BY event_time) AS temperatura_previa_c,\r\n    LAG(event_time) OVER (ORDER BY event_time) AS tiempo_anterior\r\n  FROM lecturas_aire\r\n)\r\nSELECT\r\n  event_time AS \"time\",\r\n  temperatura_c AS \"Temperatura real °C\",\r\n  CASE\r\n    WHEN event_time - tiempo_anterior\r\n         BETWEEN INTERVAL '1 second' AND INTERVAL '90 seconds'\r\n    THEN temperatura_previa_c\r\n  END AS \"Línea base de persistencia °C\"\r\nFROM serie\r\nWHERE $__timeFilter(event_time)\r\nORDER BY event_time;",
                         "sql": {
                           "columns": [
                             {
@@ -1093,7 +1093,7 @@
         "kind": "Panel",
         "spec": {
           "id": 9,
-          "title": "Lecturas recibidas cada 5 minutos",
+          "title": "Lecturas en PostgreSQL cada 5 min · mínimo 15",
           "description": "",
           "links": [],
           "data": {
@@ -1115,7 +1115,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT\r\n  $__timeGroupAlias(insertado_en, '5m'),\r\n  COUNT(*) AS \"Lecturas recibidas\"\r\nFROM lecturas_aire\r\nWHERE $__timeFilter(insertado_en)\r\nGROUP BY 1\r\nORDER BY 1;",
+                        "rawSql": "SELECT\r\n  $__timeGroupAlias(insertado_en, '5m'),\r\n  COUNT(*) AS \"Lecturas recibidas\"\r\nFROM lecturas_aire\r\nWHERE $__timeFilter(insertado_en)\r\nAND insertado_en < to_timestamp(floor(extract(epoch FROM now()) / 300) * 300)\r\nGROUP BY 1\r\nORDER BY 1;",
                         "sql": {
                           "columns": [
                             {
@@ -1178,16 +1178,16 @@
                     "steps": [
                       {
                         "value": 0,
-                        "color": "green"
+                        "color": "red"
                       },
                       {
-                        "value": 80,
-                        "color": "red"
+                        "value": 15,
+                        "color": "green"
                       }
                     ]
                   },
                   "color": {
-                    "mode": "palette-classic"
+                    "mode": "thresholds"
                   },
                   "custom": {
                     "axisBorderShow": false,
@@ -1207,7 +1207,7 @@
                       "type": "linear"
                     },
                     "thresholdsStyle": {
-                      "mode": "off"
+                      "mode": "dashed"
                     }
                   }
                 },
