@@ -34,9 +34,9 @@ AireIQ recibe lecturas ambientales reales de un ESP32 con BME680 y las procesa m
 
 
 
-- [Estimación de costos y escalado](https://github.com/faithbianposs/aireiq-unidad2-entrega/blob/main/costs/estimacion_costos.md)
-
-- [Código, contratos y capturas de evidencia](https://github.com/faithbianposs/aireiq-unidad2-entrega)
+- [Estimación de costos y escalado](costos.html)
+- [Capturas de evidencia](evidencias.html)
+- [Código y contratos en GitHub](https://github.com/faithbianposs/aireiq-unidad2-entrega)
 
 
 
