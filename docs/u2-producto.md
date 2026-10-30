@@ -43,19 +43,12 @@ PostgreSQL alimenta los paneles de Grafana. Los archivos Gold de Spark se compro
 
 
 | Sesión | Implementación AireIQ | Evidencia |
-
 | --- | --- | --- |
-
 | S6 — Evento empresarial | Órdenes de inspección con `orden_id`, dispositivo, motivo, solicitante, estado y fecha. Topic, productor, consumidor y contrato `inspeccion.creada.v1.json`. | Productor y consumidor mostraron la misma orden con partición 0 y offset 3. |
-
 | S7 — IoT | Lecturas reales del ESP32 enviadas por MQTT y publicadas en `aireiq-lecturas` mediante el puente. | Contrato de lectura, flujo Kafka y lecturas persistidas en Raw y PostgreSQL. |
-
 | S8 — Spark Streaming | Lecturas Raw y agregaciones Gold en ventanas de 5 minutos, watermark de 1 minuto y checkpoints independientes. | Batch con lecturas reales y archivos Parquet recientes en Gold. |
-
 | S9 — Observabilidad y costos | Dashboard de Grafana con volumen, frescura, latencia y variables ambientales; estimación basada en medidas del sistema. | Panel operativo y `costs/estimacion_costos.md`. |
-
 | S10 — Series de tiempo | Regresión de temperatura comparada con persistencia mediante una separación cronológica de entrenamiento y prueba. | MAE y RMSE de ambos métodos; línea base de persistencia en Grafana. |
-
 | S11 — BI/ML | Temperatura, humedad, IAQ, eCO₂, KPI por cinco minutos y línea base de persistencia en el mismo dashboard. | Captura y exportación JSON del tablero. |
 
 
@@ -77,11 +70,8 @@ PostgreSQL alimenta los paneles de Grafana. Los archivos Gold de Spark se compro
 
 
 | Método | MAE de temperatura | RMSE de temperatura |
-
 | --- | ---: | ---: |
-
 | Regresión | 0,0509 °C | 0,0878 °C |
-
 | Persistencia | 0,0112 °C | 0,0200 °C |
 
 

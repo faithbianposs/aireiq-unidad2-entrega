@@ -25,13 +25,9 @@ Supuestos: 19 lecturas cada 5 minutos de forma continua, meses de 30 días y 358
 
 
 | Sensores equivalentes | Lecturas por mes | PostgreSQL adicional por mes |
-
 | --- | ---: | ---: |
-
 | 1 | 164 160 | 58,85 MB |
-
 | 10 | 1 641 600 | 588,55 MB |
-
 | 100 | 16 416 000 | 5,89 GB |
 
 
