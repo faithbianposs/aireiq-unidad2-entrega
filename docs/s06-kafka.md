@@ -1,8 +1,12 @@
-\# S06 — Ingesta de eventos empresariales con Kafka
+---
+layout: default
+---
+
+# S06 — Ingesta de eventos empresariales con Kafka
 
 
 
-\## Objetivo
+## Objetivo
 
 
 
@@ -10,7 +14,7 @@ Validar la publicación y el consumo de eventos operacionales mediante Apache Ka
 
 
 
-\## Servicios desplegados
+## Servicios desplegados
 
 
 
@@ -28,7 +32,7 @@ Validar la publicación y el consumo de eventos operacionales mediante Apache Ka
 
 
 
-\## Topics creados
+## Topics creados
 
 
 
@@ -42,7 +46,7 @@ Validar la publicación y el consumo de eventos operacionales mediante Apache Ka
 
 
 
-\## Prueba manual
+## Prueba manual
 
 
 
@@ -50,7 +54,7 @@ Se produjo y consumió un evento JSON en el topic `aireiq-alertas` usando las he
 
 
 
-\## Prueba con Python
+## Prueba con Python
 
 
 
@@ -58,9 +62,9 @@ Se implementaron los siguientes componentes:
 
 
 
-\- `s06-pruebas/app/producer\_alertas.py`
+- `s06-pruebas/app/producer_alertas.py`
 
-\- `s06-pruebas/app/consumer\_alertas.py`
+- `s06-pruebas/app/consumer_alertas.py`
 
 
 
@@ -72,13 +76,13 @@ Resultado validado:
 
 2\. Kafka la registró en el topic `aireiq-alertas`.
 
-3\. El consumidor Python recibió el evento con key `ESP32\_AireIQ`.
+3\. El consumidor Python recibió el evento con key `ESP32_AireIQ`.
 
 4\. El evento fue identificado con partición `0` y offset `1`.
 
 
 
-\## Separación de datos
+## Separación de datos
 
 
 

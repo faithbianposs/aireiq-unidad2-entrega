@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # S10 — Spark Structured Streaming y KPIs temporales
 
 ## Objetivo

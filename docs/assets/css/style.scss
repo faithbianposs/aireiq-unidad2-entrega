@@ -1,0 +1,106 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+body {
+  background: rgb(7, 22, 19);
+  color: rgb(222, 241, 230);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.page-header {
+  background-color: rgb(12, 53, 39);
+  background-image: linear-gradient(125deg, rgb(7, 27, 25), rgb(19, 103, 70) 72%, rgb(70, 151, 93));
+}
+
+.project-name {
+  color: rgb(245, 255, 248);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.project-tagline {
+  color: rgb(204, 244, 216);
+}
+
+.main-content {
+  position: relative;
+  max-width: 68rem;
+  margin: -1rem auto 3rem;
+  background: rgb(13, 34, 29);
+  color: rgb(222, 241, 230);
+  border: 1px solid rgb(43, 83, 64);
+  border-radius: 18px;
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.25);
+}
+
+.main-content h1,
+.main-content h2,
+.main-content h3 {
+  color: rgb(124, 229, 159);
+}
+
+.main-content a {
+  color: rgb(150, 237, 175);
+  font-weight: 600;
+}
+
+.main-content a:hover {
+  color: rgb(227, 255, 166);
+}
+
+.main-content strong {
+  color: rgb(255, 214, 128);
+}
+
+.main-content code {
+  color: rgb(221, 255, 178);
+  background: rgb(23, 55, 44);
+  border: 1px solid rgb(51, 99, 73);
+}
+
+.main-content pre {
+  background: rgb(8, 25, 22);
+  border: 1px solid rgb(51, 99, 73);
+}
+
+.main-content pre code {
+  color: rgb(222, 241, 230);
+  background: transparent;
+  border: 0;
+}
+
+.main-content table {
+  display: block;
+  overflow-x: auto;
+}
+
+.main-content table tr {
+  background: rgb(16, 42, 34);
+  border-color: rgb(49, 90, 68);
+}
+
+.main-content table tr:nth-child(even) {
+  background: rgb(21, 51, 39);
+}
+
+.main-content table th,
+.main-content table td {
+  border-color: rgb(49, 90, 68);
+}
+
+.main-content blockquote {
+  color: rgb(190, 216, 197);
+  border-left-color: rgb(255, 214, 128);
+}
+
+.site-footer {
+  border-top-color: rgb(49, 90, 68);
+}
+
+@media (max-width: 68rem) {
+  .main-content {
+    margin: -1rem 1rem 2rem;
+  }
+}

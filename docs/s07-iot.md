@@ -1,8 +1,12 @@
-\# S07 — Ingesta de eventos IoT en tiempo real
+---
+layout: default
+---
+
+# S07 — Ingesta de eventos IoT en tiempo real
 
 
 
-\## Objetivo
+## Objetivo
 
 
 
@@ -10,7 +14,7 @@ Transmitir mediciones ambientales reales generadas por el dispositivo AireIQ/Sno
 
 
 
-\## Arquitectura validada
+## Arquitectura validada
 
 
 
@@ -18,55 +22,55 @@ ESP32 con BME680 → MQTT EMQX → puente MQTT a Kafka en Docker → topic Kafka
 
 
 
-\## Dispositivo y datos
+## Dispositivo y datos
 
 
 
-\- Dispositivo: `ESP32\_AireIQ`
+- Dispositivo: `ESP32_AireIQ`
 
-\- Sensor: BME680
+- Sensor: BME680
 
-\- Topic MQTT: `aireiq/frank-ramos/lecturas/v1`
+- Topic MQTT: `aireiq/frank-ramos/lecturas/v1`
 
-\- Broker MQTT: `broker.emqx.io:1883`
+- Broker MQTT: `broker.emqx.io:1883`
 
-\- Topic Kafka: `aireiq-lecturas`
+- Topic Kafka: `aireiq-lecturas`
 
-\- Key Kafka: `ESP32\_AireIQ`
-
-
-
-\## Campos transmitidos
+- Key Kafka: `ESP32_AireIQ`
 
 
 
-\- `temperatura\_c`
-
-\- `humedad\_pct`
-
-\- `presion\_hpa`
-
-\- `gas\_ohms`
-
-\- `altura\_m`
-
-\- `iaq\_estimado`
-
-\- `eco2\_estimado\_ppm`
-
-\- `voc\_indice\_estimado`
-
-\- `calidad\_aire`
-
-\- `created\_at`
+## Campos transmitidos
 
 
 
-> Los campos `iaq\_estimado`, `eco2\_estimado\_ppm` y `voc\_indice\_estimado` son estimaciones derivadas del BME680; no corresponden a un sensor CO₂ dedicado.
+- `temperatura_c`
+
+- `humedad_pct`
+
+- `presion_hpa`
+
+- `gas_ohms`
+
+- `altura_m`
+
+- `iaq_estimado`
+
+- `eco2_estimado_ppm`
+
+- `voc_indice_estimado`
+
+- `calidad_aire`
+
+- `created_at`
 
 
 
-\## Evidencia de ejecución real
+> Los campos `iaq_estimado`, `eco2_estimado_ppm` y `voc_indice_estimado` son estimaciones derivadas del BME680; no corresponden a un sensor CO₂ dedicado.
+
+
+
+## Evidencia de ejecución real
 
 
 
@@ -76,16 +80,16 @@ ESP32 con BME680 → MQTT EMQX → puente MQTT a Kafka en Docker → topic Kafka
 
 3\. Kafka UI mostró lecturas reales en `aireiq-lecturas`.
 
-4\. La lectura validada usa key `ESP32\_AireIQ`, partición `1` y contiene el JSON completo con las métricas reales del dispositivo.
+4\. La lectura validada usa key `ESP32_AireIQ`, partición `1` y contiene el JSON completo con las métricas reales del dispositivo.
 
 
 
-\## Separación de responsabilidades
+## Separación de responsabilidades
 
 
 
-\- `aireiq-lecturas`: telemetría ambiental real del ESP32.
+- `aireiq-lecturas`: telemetría ambiental real del ESP32.
 
-\- `aireiq-alertas`: eventos de prueba y alertas operacionales.
+- `aireiq-alertas`: eventos de prueba y alertas operacionales.
 
-\- Supabase permanece como almacenamiento histórico directo del dispositivo.
+- Supabase permanece como almacenamiento histórico directo del dispositivo.
